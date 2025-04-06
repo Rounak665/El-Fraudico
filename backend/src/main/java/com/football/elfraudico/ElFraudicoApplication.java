@@ -8,6 +8,7 @@ public class ElFraudicoApplication {
 
     public static void main(String[] args) {
         new EnvConfig();
+        
         SpringApplication.run(ElFraudicoApplication.class, args);
     }
 
