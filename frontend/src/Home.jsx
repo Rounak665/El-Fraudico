@@ -9,8 +9,7 @@ function Home() {
     const [players, setPlayers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [showForm, setShowForm] = useState(false);
-    const navigate = useNavigate();
-
+  const navigate = useNavigate();
     useEffect(() => {
         fetch(`${API_BASE_URL}/players`)
             .then((res) => res.json())
