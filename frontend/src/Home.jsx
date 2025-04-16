@@ -9,7 +9,8 @@ function Home() {
     const [players, setPlayers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [showForm, setShowForm] = useState(false);
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+
     useEffect(() => {
         fetch(`${API_BASE_URL}/players`)
             .then((res) => res.json())
@@ -27,9 +28,7 @@ function Home() {
     );
 
     return (
-
         <div className="home-container">
-
             <input
                 type="text"
                 className="search-bar"
@@ -40,28 +39,32 @@ function Home() {
 
             <div className="marquee-container">
                 <div className="marquee-track">
-    <span className="marquee-text">
-      Cristiano ain't allowed here. This turf is Pessi-certified 🥷 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    </span>
                     <span className="marquee-text">
-      Whoever adds Cristiano Ronaldo 🐐 is gay
-    </span>
+                        Cristiano ain't allowed here. This turf is Pessi-certified 🥷 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </span>
+                    <span className="marquee-text">
+                        Whoever adds Cristiano Ronaldo 🐐 is gay
+                    </span>
                 </div>
             </div>
 
+            {showForm ? (
+                <AddPlayer onPlayerAdded={handlePlayerAdded} />
+            ) : (
+                <div className="card-container">
+                    {filteredPlayers.map((player) => (
+                        <div key={player.id} className="card" onClick={() => navigate(`/player/${player.id}`)}>
+                            <img src={player.imageUrl} alt={player.name} />
+                            <h2>{player.name}</h2>
+                            <p>{player.shortDesc}</p>
+                        </div>
+                    ))}
+                </div>
+            )}
 
-            <div className="card-container">
-                {filteredPlayers.map((player) => (
-                    <div key={player.id} className="card" onClick={() => navigate(`/player/${player.id}`)}>
-                        <img src={player.imageUrl} alt={player.name} />
-                        <h2>{player.name}</h2>
-                        <p>{player.shortDesc}</p>
-                    </div>
-                ))}
-            </div>
-
-            {showForm && <AddPlayer onPlayerAdded={handlePlayerAdded} />}
-            <button className="fab" onClick={() => setShowForm(!showForm)}>+</button>
+            <button className="fab" onClick={() => setShowForm(!showForm)}>
+                {showForm ? '✖' : '+'}
+            </button>
         </div>
     );
 }

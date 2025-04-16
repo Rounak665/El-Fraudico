@@ -211,3 +211,8 @@ body {
 .add-player-form button:hover {
   background-color: #005fa3;
 }
+
+.add-player-form button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

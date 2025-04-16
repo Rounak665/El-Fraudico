@@ -11,6 +11,8 @@ const AddPlayer = ({ onPlayerAdded }) => {
         image: null
     });
 
+    const [loading, setLoading] = useState(false); // loading state
+
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         setFormData((prev) => ({
@@ -21,6 +23,8 @@ const AddPlayer = ({ onPlayerAdded }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true); // start loading
+
         const data = new FormData();
         data.append("player", new Blob([JSON.stringify({
             name: formData.name,
@@ -44,6 +48,8 @@ const AddPlayer = ({ onPlayerAdded }) => {
             }
         } catch (error) {
             console.error("Error adding player:", error);
+        } finally {
+            setLoading(false); // stop loading
         }
     };
 
@@ -53,7 +59,9 @@ const AddPlayer = ({ onPlayerAdded }) => {
             <input name="shortDesc" value={formData.shortDesc} onChange={handleChange} placeholder="Short Description" required />
             <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" required />
             <input type="file" name="image" accept="image/*" onChange={handleChange} required />
-            <button type="submit">Add Player</button>
+            <button type="submit" disabled={loading}>
+                {loading ? 'Adding...' : 'Add Player'}
+            </button>
         </form>
     );
 };
