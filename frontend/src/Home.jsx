@@ -30,7 +30,7 @@ function Home() {
         const correctPassword = import.meta.env.VITE_ADMIN_PASSWORD;
 
         if (password === correctPassword) {
-            fetch(`${API_BASE_URL}/${deletePlayerId}`, {
+            fetch(`${API_BASE_URL}/players/${deletePlayerId}`, {
                 method: 'DELETE',
             })
                 .then((res) => res.json())
