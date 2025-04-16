@@ -36,6 +36,37 @@ public class PlayerService {
         return repository.save(player);
     }
 
+    // Update player with optional image
+    public Player updatePlayer(Long id, Player player, MultipartFile image) throws IOException {
+        Optional<Player> existingPlayerOpt = repository.findById(id);
+
+        if (existingPlayerOpt.isPresent()) {
+            Player existingPlayer = existingPlayerOpt.get();
+
+            // Update player details
+            existingPlayer.setName(player.getName());
+            existingPlayer.setShortDesc(player.getShortDesc());
+
+            // If new image is provided, upload it and update the image URL
+            if (image != null && !image.isEmpty()) {
+                // Delete old image from Cloudinary if it exists
+                if (existingPlayer.getImageUrl() != null) {
+                    String publicId = extractPublicId(existingPlayer.getImageUrl());
+                    cloudinaryService.deleteFile(publicId);
+                }
+
+                // Upload new image to Cloudinary
+                String imageUrl = cloudinaryService.uploadFile(image,"robbers");
+                existingPlayer.setImageUrl(imageUrl);
+            }
+
+            // Save and return the updated player
+            return repository.save(existingPlayer);
+        } else {
+            throw new RuntimeException("Player not found with id: " + id);
+        }
+    }
+
     // Delete player and their Cloudinary image
     public void deletePlayer(Long id) throws IOException {
         Optional<Player> optionalPlayer = repository.findById(id);

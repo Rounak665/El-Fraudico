@@ -24,6 +24,7 @@ body {
 
 
 .card {
+  position: relative;
   background-color: #ffffff;
   border: 1px solid #0077cc;
   border-radius: 12px;
@@ -33,6 +34,10 @@ body {
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  overflow: hidden;
 }
 
 .card:hover {
@@ -215,4 +220,164 @@ body {
 .add-player-form button[disabled] {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+
+/* Show buttons on hover or focus */
+.card:hover .edit-btn,
+.card:hover .delete-btn,
+.card:focus-within .edit-btn,
+.card:focus-within .delete-btn {
+  opacity: 1;
+}
+
+/* DELETE BUTTON */
+.delete-btn {
+  background-color: #ffffff; /* Default white */
+  color: #c0392b; /* Red text */
+  padding: 8px 12px;
+  border: 2px solid #c0392b;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: auto;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover,
+.delete-btn:focus {
+  background-color: #c0392b;
+  color: #ffffff; /* Text becomes white on hover/focus */
+}
+
+/* EDIT BUTTON */
+.edit-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #ffffff; /* Default white */
+  color: #3498db; /* Blue text */
+  padding: 10px;
+  border: 2px solid #3498db;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 119, 204, 0.2);
+  opacity: 0;
+}
+
+.edit-btn:hover,
+.edit-btn:focus {
+  background-color: #3498db;
+  color: #ffffff;
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translate(-50%, -50%);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
+  }
+}
+
+@keyframes redPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+  }
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+.delete-password-prompt {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #1e1e2f;
+  color: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  min-width: 300px;
+  animation: scaleUp 0.3s ease;
+}
+
+.delete-password-prompt h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #ff4d4d;
+}
+
+.delete-password-prompt input {
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.delete-password-prompt button {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+  width: 100%;
+}
+
+.delete-password-prompt button:nth-child(3) {
+  background: #34495e;
+  color: white;
+}
+
+.delete-password-prompt button:nth-child(4) {
+  background: #e74c3c;
+  color: white;
+  animation: redPulse 2s infinite;
+}
+
+
+/* Optional backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
 }

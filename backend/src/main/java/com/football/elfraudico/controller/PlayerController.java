@@ -51,4 +51,16 @@ public class PlayerController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Player> updatePlayer(@RequestParam Long id,
+                                               @RequestPart Player player,
+                                               @RequestPart(required = false) MultipartFile image) {
+        try {
+            Player updatedPlayer = playerService.updatePlayer(id, player, image);
+            return ResponseEntity.ok(updatedPlayer);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }

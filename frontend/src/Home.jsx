@@ -9,6 +9,9 @@ function Home() {
     const [players, setPlayers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [showForm, setShowForm] = useState(false);
+    const [password, setPassword] = useState('');
+    const [isDeleteMode, setIsDeleteMode] = useState(false);
+    const [deletePlayerId, setDeletePlayerId] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -22,6 +25,29 @@ function Home() {
         setPlayers((prev) => [...prev, newPlayer]);
         setShowForm(false);
     };
+
+    const handleDelete = () => {
+        const correctPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+
+        if (password === correctPassword) {
+            fetch(`${API_BASE_URL}/${deletePlayerId}`, {
+                method: 'DELETE',
+            })
+                .then((res) => res.json())
+                .then(() => {
+                    setPlayers((prev) => prev.filter((player) => player.id !== deletePlayerId));
+                    setIsDeleteMode(false);
+                    setDeletePlayerId(null);
+                    setPassword('');
+                    window.location.reload(); // Reload the page
+                })
+                .catch((err) => console.error('Error deleting player:', err));
+        } else {
+            alert("Incorrect password!");
+        }
+    };
+
+
 
     const filteredPlayers = players.filter(player =>
         player.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -53,17 +79,60 @@ function Home() {
             ) : (
                 <div className="card-container">
                     {filteredPlayers.map((player) => (
-                        <div key={player.id} className="card" onClick={() => navigate(`/player/${player.id}`)}>
+                        <div
+                            key={player.id}
+                            className="card"
+                            onClick={() => navigate(`/player/${player.id}`)}
+                        >
+                            <button
+                                className="edit-btn"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(`/edit/${player.id}`);
+                                }}
+                            >
+                                ✏️
+                            </button>
+
                             <img src={player.imageUrl} alt={player.name} />
                             <h2>{player.name}</h2>
                             <p>{player.shortDesc}</p>
+
+                            <button
+                                className="delete-btn"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setDeletePlayerId(player.id);
+                                    setIsDeleteMode(true);
+                                }}
+                            >
+                                Delete
+                            </button>
                         </div>
                     ))}
                 </div>
             )}
 
+            {isDeleteMode && (
+                <>
+                    <div className="modal-backdrop" onClick={() => setIsDeleteMode(false)} />
+                    <div className="delete-password-prompt">
+                        <h3>⚠️ Confirm Deletion</h3>
+                        <input
+                            type="password"
+                            placeholder="Enter password to delete"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <button onClick={() => setIsDeleteMode(false)}>Cancel</button>
+                        <button onClick={handleDelete}>Delete</button>
+                    </div>
+                </>
+            )}
+
+
             <button className="fab" onClick={() => setShowForm(!showForm)}>
-                {showForm ? '✖' : '+'}
+                {showForm ? 'x' : '+'}
             </button>
         </div>
     );
