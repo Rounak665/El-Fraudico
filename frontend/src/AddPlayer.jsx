@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import './App.css';
 
@@ -8,7 +7,7 @@ const AddPlayer = ({ onPlayerAdded }) => {
     const [formData, setFormData] = useState({
         name: '',
         shortDesc: '',
-        longDesc: '',
+        description: '',
         image: null
     });
 
@@ -26,7 +25,7 @@ const AddPlayer = ({ onPlayerAdded }) => {
         data.append("player", new Blob([JSON.stringify({
             name: formData.name,
             shortDesc: formData.shortDesc,
-            longDesc: formData.longDesc
+            description: formData.description
         })], { type: "application/json" }));
         data.append("image", formData.image);
 
@@ -39,7 +38,7 @@ const AddPlayer = ({ onPlayerAdded }) => {
             if (response.ok) {
                 const newPlayer = await response.json();
                 onPlayerAdded(newPlayer);
-                setFormData({ name: '', shortDesc: '', longDesc: '', image: null });
+                setFormData({ name: '', shortDesc: '', description: '', image: null });
             } else {
                 alert("Failed to add player.");
             }
@@ -52,7 +51,7 @@ const AddPlayer = ({ onPlayerAdded }) => {
         <form className="add-player-form" onSubmit={handleSubmit}>
             <input name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
             <input name="shortDesc" value={formData.shortDesc} onChange={handleChange} placeholder="Short Description" required />
-            <textarea name="longDesc" value={formData.longDesc} onChange={handleChange} placeholder="Long Description" required />
+            <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" required />
             <input type="file" name="image" accept="image/*" onChange={handleChange} required />
             <button type="submit">Add Player</button>
         </form>
