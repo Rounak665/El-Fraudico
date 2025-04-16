@@ -1,6 +1,12 @@
 🏆 El Fraudico
-A football-themed web application where you can view, add, and manage legendary fraud footballers like Lionel Pessi and Sergio “No Balls” Agüero.
+A football-themed web application where you can view, add, and manage legendary fraud footballers like Lionel Pessi and Rodri Robber.
 Built with React (frontend), Spring Boot (backend), MySQL (database), and Cloudinary (image hosting).
+
+⚠️ Disclaimer
+This web app is made purely for fun and satire.
+Any resemblance to real footballers is intentional—but only in a humorous, fictional context.
+If you're a die-hard fan, please take this with a grain of salt. No actual disrespect is intended toward any player or club ⚽❤️
+
 
 📸 Live Demo
 🌐 https://el-fraudico.vercel.app
@@ -12,9 +18,15 @@ Built with React (frontend), Spring Boot (backend), MySQL (database), and Cloudi
 
 🗑️ Delete players
 
-☁️ Images stored securely using Cloudinary
+💻 Tech Stack-->
 
-💾 MySQL backend for persistent storage
+⚛️ React (Frontend)
+
+🧠 Spring Boot (Backend)
+
+🐬 MySQL (Database)
+
+☁️ Cloudinary (Image hosting)
 
 🔧 Environment Variables
 You'll need a .env file in both the frontend and backend (not committed).
@@ -28,13 +40,13 @@ DB_NAME=...
 CLOUDINARY_CLOUD_NAME=...
 CLOUDINARY_API_KEY=...
 CLOUDINARY_API_SECRET=...
+FRONTEND_URL=...
+
 
 For frontend:
-VITE_API_BASE_URL=ht.../api
+VITE_API_BASE_URL=.../api
+VITE_ADMIN_PASS=...
 
-
-🧙 Fun Fact
-This project includes 100% certified frauds of football history. Viewer discretion advised ⚽️🔥
 
 ✍️ Author
 Rounak Chakraborty
